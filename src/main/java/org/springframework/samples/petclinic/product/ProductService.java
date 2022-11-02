@@ -2,40 +2,40 @@ package org.springframework.samples.petclinic.product;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductService {
-    
-    private ProductRepository productRepository;
 
     @Autowired
-    public ProductService(ProductRepository productRepository){
-        this.productRepository = productRepository;
-    }
-    
+    private ProductRepository productRepository;
+
     @Transactional(readOnly = true)
     public List<Product> getAllProducts(){
-        return this.productRepository.findAll();
+        return productRepository.findAll();
     }
 
     public List<Product> getProductsCheaperThan(double price) {
-        return this.productRepository.findByPriceLessThan(price);
+        return productRepository.findByPriceLessThan(price);
     }
 
-    public ProductType getProductType(String typeName) {
-        return this.productRepository.getProductType(typeName);
+    public ProductType getProductType(String typeName){ 
+        return productRepository.findProductType(typeName);
     }
 
+     public Product save(Product p){
+        return productRepository.save(p);
+     }
+
+/*    public void save(Product p){
+        productRepository.save(p);
+    } 
+*/
     public List<ProductType> findAllProductTypes(){
-        return this.productRepository.findAllProductTypes();
+        return productRepository.findAllProductTypes();
     }
-    
-    public Product save(Product p){
-        return this.productRepository.save(p);       
-    }
-
     
 }

@@ -20,12 +20,9 @@ public class ProductTypeFormatter implements Formatter<ProductType>{
 
     @Override
     public ProductType parse(String text, Locale locale) throws ParseException {
-        ProductType p = this.ps.getProductType(text);
-        if(p == null){
-            throw new ParseException(text, 0);
-        } else{
-            return p;
+        ProductType p= ps.getProductType(text);
+        if(p==null) throw new ParseException(text,0);
+        else return p;
         }
-    }
     
 }

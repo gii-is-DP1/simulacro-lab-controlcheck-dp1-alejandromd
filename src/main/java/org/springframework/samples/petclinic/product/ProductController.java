@@ -13,31 +13,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/product")
 public class ProductController {
-
+    
     @Autowired
-    private ProductService productService;
-    private static final String VIEWS_FORM = "products/createOrUpdateProductForm";
+    private ProductService ps;
+    
+    private static final String VIEW_FORMULARIO = "products/createOrUpdateProductForm";
 
-    @GetMapping(path = "/create")
-    public String viewForm(ModelMap map){
-        String view = VIEWS_FORM;
-        map.addAttribute("product", new Product());
-        map.addAttribute("productType", productService.findAllProductTypes());
-        return view;
+    @GetMapping(path="/create")
+    public String initForm(ModelMap modelMap){
+        modelMap.addAttribute("product", new Product());
+        modelMap.addAttribute("productType",ps.findAllProductTypes());
+        return VIEW_FORMULARIO;
     }
 
-    @PostMapping(path = "/create")
-    public String createProduct(@Valid Product product, BindingResult res, ModelMap map){
-        String view = "welcome";
-        if(res.hasErrors()){
-            map.addAttribute("product", product);
-            map.addAttribute("productType", productService.findAllProductTypes());
-            return VIEWS_FORM;
+    @PostMapping(path="/create")
+    public String processCreationForm(@Valid Product p, BindingResult result, ModelMap modelmap){
+        String view= "welcome";
+        if(result.hasErrors()){
+            modelmap.addAttribute("product", p);
+            modelmap.addAttribute("productType", ps.findAllProductTypes());
+            return VIEW_FORMULARIO;
         }else{
-            productService.save(product);
-            map.addAttribute("message", "Product succesfully save");
+            ps.save(p);
+            modelmap.addAttribute("message", "se ha añadido correctamente");
         }
         return view;
     }
-    
 }

@@ -10,17 +10,17 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Integer>{
-   
+    List<Product> findAll();
+
     @Query("SELECT p FROM ProductType p")
     List<ProductType> findAllProductTypes();
-
-    @Query("SELECT t FROM ProductType t WHERE t.name=?1")
-    ProductType getProductType(String nombre);
-
-    @Query("SELECT p FROM Product p WHERE p.price <= ?1")
-    List<Product> findByPriceLessThan(double price);
     
-    List<Product> findAll();
+    @Query("SELECT p FROM ProductType p WHERE p.name=?1")
+    ProductType findProductType(String name);
+
+    @Query("SELECT p FROM Product p WHERE p.price<=?1")
+    List<Product> findByPriceLessThan(double d);
+
     Optional<Product> findById(int id);
     Product findByName(String name);
     Product save(Product p);
